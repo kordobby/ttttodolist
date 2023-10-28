@@ -2,29 +2,19 @@ import React, { PropsWithChildren, useState } from 'react';
 import Input from '../../../component/core/control/Input';
 import Button from '../../../component/core/control/Button';
 import TodoProvider, { TodoEntity } from '../../../server/TodoProvider';
+import { FormItemInputType, FormItemType } from '../type';
 
-type FormItemIdType = "title" | "content"
-type FormItemType = {
-  id: FormItemIdType,
-  label: string
-}
-
-interface FormItemInterface<T> {
-  title: T;
-  content: T;
-}
-
-const initialFormItem: FormItemInterface<string> = {
+const initialFormItem: FormItemType<string> = {
   title: '',
   content: '',
 };
 
-const initialErrorState: FormItemInterface<boolean> = {
+const initialErrorState: FormItemType<boolean> = {
   title: false,
   content: false,
 };
 
-const todoFormItem: FormItemType[] = [
+const todoFormItem: FormItemInputType[] = [
   {
     id: 'title',
     label: '제목',
@@ -41,9 +31,10 @@ interface TodoFormProps extends PropsWithChildren {
 
 function TodoForm(props: TodoFormProps) {
   const { setTodoList } = props;
-  const [formItem, setFormItem] = useState<FormItemInterface<string>>(initialFormItem);
-  const [error, setError] = useState<FormItemInterface<boolean>>(initialErrorState);
-  
+  const [formItem, setFormItem] = useState<FormItemType<string>>(initialFormItem);
+  const [error, setError] = useState<FormItemType<boolean>>(initialErrorState);
+  const btnDisabled = error.title || error.title;
+
   const onValidateFormItem = (key: string, value: string) => {
     if (!value || value.trim() === '') {
       setError((prev) => ({ ...prev, [key]: true }));
@@ -72,11 +63,13 @@ function TodoForm(props: TodoFormProps) {
   return (
     <form className="todo_form" onSubmit={onSubmit}>
       {todoFormItem.map((value) => (
-        <Input key={value.id} label={value.label} error={error[value.id]}>
+        <Input key={value.id} label={value.label} $isError={error[value.id]}>
           <Input.TextField id={value.id} onChange={onChange} />
         </Input>
       ))}
-      <Button type="submit">제출하기</Button>
+      <Button type="submit" disabled={btnDisabled}>
+        제출하기
+      </Button>
     </form>
   );
 }

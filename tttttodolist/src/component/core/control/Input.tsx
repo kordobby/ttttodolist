@@ -10,18 +10,21 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-export interface InputProps extends HTMLAttributes<HTMLDivElement> {
-  label?: ReactNode;
-  children: ReactElement;
-  error: boolean;
+interface InputLayoutProps {
+  $isError: boolean;
 }
 
-function Input({ label, children, error, ...rest }: InputProps) {
+export interface InputProps extends HTMLAttributes<HTMLDivElement>, InputLayoutProps {
+  label?: ReactNode;
+  children: ReactElement;
+}
+
+function Input({ label, children, $isError, ...rest }: InputProps) {
   const child = Children.only(children);
   const id = child.props.id;
 
   return (
-    <InputLayout {...rest} error={error}>
+    <InputLayout {...rest} $isError={$isError}>
       {label && <label htmlFor={id}>{label}</label>}
       <div>
         {cloneElement(child, {
@@ -42,4 +45,6 @@ Input.TextField = forwardRef((props: TextFieldProps, ref: ForwardedRef<HTMLInput
 
 export default Input;
 
-const InputLayout = styled.div<{ error: boolean }>``;
+const InputLayout = styled.div<InputLayoutProps>`
+  border-color: ${({ $isError }) => ($isError ? 'red' : 'black')};
+`;

@@ -1,5 +1,4 @@
 import { PropsWithChildren } from 'react';
-import { TodoType } from '../type';
 import Button from '../../../component/core/control/Button';
 import TodoProvider, { TodoEntity } from '../../../server/TodoProvider';
 
@@ -10,7 +9,7 @@ function Title(props: PropsWithChildren) {
 }
 
 interface TodoListProps extends PropsWithChildren {
-  data: TodoType[];
+  data: TodoEntity[];
   setTodoList: React.Dispatch<React.SetStateAction<TodoEntity[]>>;
 }
 
