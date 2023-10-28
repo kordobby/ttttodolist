@@ -8,7 +8,7 @@ import { TodoEntity } from '../../server/TodoProvider';
 function TodoPage() {
   const [todoList, setTodoList] = useState<TodoEntity[]>([]);
   useGetTodo(setTodoList);
-  
+
   return (
     <UI.Layout>
       <TodoForm setTodoList={setTodoList} />

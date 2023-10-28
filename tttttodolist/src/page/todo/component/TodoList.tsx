@@ -13,7 +13,7 @@ interface TodoListProps extends PropsWithChildren {
 
 function List(props: TodoListProps) {
   const { data } = props;
-  
+
   return (
     <ul>
       {data.map((value) => (

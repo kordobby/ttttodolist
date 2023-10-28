@@ -33,10 +33,10 @@ function TodoProvider() {
       ...request,
       done: false,
     };
-    todolist.push(todo)
+    todolist.push(todo);
     return returnPromise(() => [...todolist]);
   }
-  
+
   return {
     getTodos,
     createTodo,

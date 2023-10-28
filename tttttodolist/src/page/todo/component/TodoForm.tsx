@@ -18,6 +18,7 @@ const initialFormItem: FormItemInterface = {
 interface TodoFormProps extends PropsWithChildren {
   setTodoList: React.Dispatch<React.SetStateAction<TodoEntity[]>>;
 }
+
 function TodoForm(props: TodoFormProps) {
   const { setTodoList } = props;
   const [formItem, setFormItem] = useState<FormItemInterface>(initialFormItem);
