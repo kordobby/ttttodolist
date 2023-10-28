@@ -13,12 +13,15 @@ interface TodoListProps extends PropsWithChildren {
 
 function List(props: TodoListProps) {
   const { data } = props;
+  
   return (
-    <>
+    <ul>
       {data.map((value) => (
-        <span id={value.id}>{value.title}</span>
+        <li key={value.id} id={value.id}>
+          {value.title} - {value.content}
+        </li>
       ))}
-    </>
+    </ul>
   );
 }
 
