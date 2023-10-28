@@ -3,17 +3,37 @@ import Input from '../../../component/core/control/Input';
 import Button from '../../../component/core/control/Button';
 import TodoProvider, { TodoEntity } from '../../../server/TodoProvider';
 
-interface FormItemInterface {
-  title: string;
-  content: string;
-  error: boolean;
+type FormItemIdType = "title" | "content"
+type FormItemType = {
+  id: FormItemIdType,
+  label: string
 }
 
-const initialFormItem: FormItemInterface = {
+interface FormItemInterface<T> {
+  title: T;
+  content: T;
+}
+
+const initialFormItem: FormItemInterface<string> = {
   title: '',
   content: '',
-  error: false,
 };
+
+const initialErrorState: FormItemInterface<boolean> = {
+  title: false,
+  content: false,
+};
+
+const todoFormItem: FormItemType[] = [
+  {
+    id: 'title',
+    label: '제목',
+  },
+  {
+    id: 'content',
+    label: '내용',
+  },
+];
 
 interface TodoFormProps extends PropsWithChildren {
   setTodoList: React.Dispatch<React.SetStateAction<TodoEntity[]>>;
@@ -21,14 +41,15 @@ interface TodoFormProps extends PropsWithChildren {
 
 function TodoForm(props: TodoFormProps) {
   const { setTodoList } = props;
-  const [formItem, setFormItem] = useState<FormItemInterface>(initialFormItem);
-
-  const onValidateFormItem = (id: string, value: string) => {
+  const [formItem, setFormItem] = useState<FormItemInterface<string>>(initialFormItem);
+  const [error, setError] = useState<FormItemInterface<boolean>>(initialErrorState);
+  
+  const onValidateFormItem = (key: string, value: string) => {
     if (!value || value.trim() === '') {
-      setFormItem((prev) => ({ ...prev, error: true }));
+      setError((prev) => ({ ...prev, [key]: true }));
       return;
     }
-    setFormItem((prev) => ({ ...prev, error: false }));
+    setError((prev) => ({ ...prev, [key]: false }));
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,12 +71,11 @@ function TodoForm(props: TodoFormProps) {
 
   return (
     <form className="todo_form" onSubmit={onSubmit}>
-      <Input label="제목">
-        <Input.TextField id="title" onChange={onChange} />
-      </Input>
-      <Input label="내용">
-        <Input.TextField id="content" onChange={onChange} />
-      </Input>
+      {todoFormItem.map((value) => (
+        <Input key={value.id} label={value.label} error={error[value.id]}>
+          <Input.TextField id={value.id} onChange={onChange} />
+        </Input>
+      ))}
       <Button type="submit">제출하기</Button>
     </form>
   );

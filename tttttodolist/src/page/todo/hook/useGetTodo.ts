@@ -1,7 +1,12 @@
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import TodoProvider, { TodoEntity } from '../../../server/TodoProvider';
 
-export const useGetTodo = (setTodoList: React.Dispatch<React.SetStateAction<TodoEntity[]>>) => {
+export const useGetTodo = (): [
+  TodoEntity[],
+  React.Dispatch<React.SetStateAction<TodoEntity[]>>,
+] => {
+  const [todoList, setTodoList] = useState<TodoEntity[]>([]);
+
   const onGetTodoList = useCallback(async () => {
     const response = await TodoProvider.getTodos();
     setTodoList(response);
@@ -10,4 +15,6 @@ export const useGetTodo = (setTodoList: React.Dispatch<React.SetStateAction<Todo
   useEffect(() => {
     onGetTodoList();
   }, [onGetTodoList]);
+
+  return [todoList, setTodoList];
 };

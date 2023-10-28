@@ -8,18 +8,20 @@ import {
   cloneElement,
   forwardRef,
 } from 'react';
+import styled from 'styled-components';
 
 export interface InputProps extends HTMLAttributes<HTMLDivElement> {
   label?: ReactNode;
   children: ReactElement;
+  error: boolean;
 }
 
-function Input({ label, children, ...rest }: InputProps) {
+function Input({ label, children, error, ...rest }: InputProps) {
   const child = Children.only(children);
   const id = child.props.id;
 
   return (
-    <div {...rest}>
+    <InputLayout {...rest} error={error}>
       {label && <label htmlFor={id}>{label}</label>}
       <div>
         {cloneElement(child, {
@@ -28,7 +30,7 @@ function Input({ label, children, ...rest }: InputProps) {
           ...child.props,
         })}
       </div>
-    </div>
+    </InputLayout>
   );
 }
 
@@ -39,3 +41,5 @@ Input.TextField = forwardRef((props: TextFieldProps, ref: ForwardedRef<HTMLInput
 });
 
 export default Input;
+
+const InputLayout = styled.div<{ error: boolean }>``;

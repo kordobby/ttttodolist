@@ -50,15 +50,15 @@ function TodoProvider() {
     const index = todolist.findIndex((item) => item.id === id);
     todolist[index] = {
       ...todolist[index],
-      done: !todolist[index].done
-    }
+      done: !todolist[index].done,
+    };
     return returnPromise(() => [...todolist]);
   }
   return {
     getTodos,
     createTodo,
     deleteTodo,
-    modifyTodo
+    modifyTodo,
   };
 }
 
