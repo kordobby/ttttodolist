@@ -21,10 +21,10 @@ function List(props: TodoListProps) {
     setTodoList(response);
   };
 
-  const onModify = async(id: string) => {
+  const onModify = async (id: string) => {
     const response = await TodoProvider.modifyTodo(id);
     setTodoList(response);
-  }
+  };
 
   return (
     <ul>
@@ -32,7 +32,7 @@ function List(props: TodoListProps) {
         <li key={value.id} id={value.id}>
           {value.title} - {value.content}
           <Button onClick={() => onDelete(value.id)}>삭제</Button>
-          <Button onClick={() => onModify(value.id)}>{value.done ? "취소" : "완료"}</Button>
+          <Button onClick={() => onModify(value.id)}>{value.done ? '취소' : '완료'}</Button>
         </li>
       ))}
     </ul>
@@ -41,6 +41,7 @@ function List(props: TodoListProps) {
 
 function TodoList(props: TodoPageProps) {
   const { children } = props;
+  console.log("RENDER")
   return <>{children}</>;
 }
 
