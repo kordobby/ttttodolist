@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useState } from 'react';
 import Input from '../../../component/core/control/Input';
 import Button from '../../../component/core/control/Button';
 import TodoProvider, { TodoEntity } from '../../../server/TodoProvider';
-import { FormItemInputType, FormItemType } from '../type';
+import { FormItemType } from '../type';
 
 const initialFormItem: FormItemType<string> = {
   title: '',
@@ -13,17 +13,6 @@ const initialErrorState: FormItemType<boolean> = {
   title: false,
   content: false,
 };
-
-const todoFormItem: FormItemInputType[] = [
-  {
-    id: 'title',
-    label: '제목',
-  },
-  {
-    id: 'content',
-    label: '내용',
-  },
-];
 
 interface TodoFormProps extends PropsWithChildren {
   setTodoList: React.Dispatch<React.SetStateAction<TodoEntity[]>>;
@@ -62,11 +51,12 @@ function TodoForm(props: TodoFormProps) {
 
   return (
     <form className="todo_form" onSubmit={onSubmit}>
-      {todoFormItem.map((value) => (
-        <Input key={value.id} label={value.label} $isError={error[value.id]}>
-          <Input.TextField id={value.id} onChange={onChange} />
-        </Input>
-      ))}
+      <Input label={'제목'} $isError={error['title']}>
+        <Input.TextField id={'title'} onChange={onChange} />
+      </Input>
+      <Input label={'내용'} $isError={error['content']}>
+        <Input.TextField id={'content'} onChange={onChange} />
+      </Input>
       <Button type="submit" disabled={btnDisabled}>
         제출하기
       </Button>
