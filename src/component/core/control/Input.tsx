@@ -37,7 +37,7 @@ function Input({ label, children, $isError, ...rest }: InputProps) {
   );
 }
 
-interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {}
+export interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {}
 
 Input.TextField = forwardRef((props: TextFieldProps, ref: ForwardedRef<HTMLInputElement>) => {
   return <input ref={ref} {...props} />;
