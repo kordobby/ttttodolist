@@ -46,7 +46,7 @@ function TodoProvider() {
     return returnPromise(() => [...todolist]);
   }
 
-  async function modifyTodo(id: string): Promise<TodoEntity[]> {
+  async function modifyDoneState(id: string): Promise<TodoEntity[]> {
     const index = todolist.findIndex((item) => item.id === id);
     todolist[index] = {
       ...todolist[index],
@@ -54,11 +54,23 @@ function TodoProvider() {
     };
     return returnPromise(() => [...todolist]);
   }
+
+  async function modifyTodo(request: TodoEntity) {
+    for (let index = 0; index < todolist.length; index++) {
+      if (todolist[index].id === request.id) {
+        todolist[index].title = request.title;
+        todolist[index].content = request.content;
+      }
+    }
+    return returnPromise(() => [...todolist]);
+  }
+
   return {
     getTodos,
     createTodo,
     deleteTodo,
     modifyTodo,
+    modifyDoneState,
   };
 }
 

@@ -11,7 +11,7 @@ import {
 import styled from 'styled-components';
 
 interface InputLayoutProps {
-  $isError: boolean;
+  $isError?: boolean;
 }
 
 export interface InputProps extends HTMLAttributes<HTMLDivElement>, InputLayoutProps {

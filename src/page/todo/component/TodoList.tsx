@@ -1,50 +1,42 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useContext } from 'react';
 import Button from '../../../component/core/control/Button';
-import TodoProvider, { TodoEntity } from '../../../server/TodoProvider';
-
-interface TodoPageProps extends PropsWithChildren {}
-
-function Title(props: PropsWithChildren) {
-  return <>{props.children}</>;
-}
+import TodoProvider from '../../../server/TodoProvider';
+import { TodoContext } from '..';
+import { TodoListItem } from './TodoFormItem';
 
 interface TodoListProps extends PropsWithChildren {
-  data: TodoEntity[];
-  setTodoList: React.Dispatch<React.SetStateAction<TodoEntity[]>>;
+  listType: 'active' | 'archived';
 }
 
-function List(props: TodoListProps) {
-  const { data, setTodoList } = props;
+function TodoList(props: TodoListProps) {
+  const { state, setter } = useContext(TodoContext);
+  const listData = state.filter((value) =>
+    props.listType === 'active' ? value.done === false : value.done === true
+  );
 
   const onDelete = async (id: string) => {
     const response = await TodoProvider.deleteTodo(id);
-    setTodoList(response);
+    setter(response);
   };
 
   const onModify = async (id: string) => {
-    const response = await TodoProvider.modifyTodo(id);
-    setTodoList(response);
+    const response = await TodoProvider.modifyDoneState(id);
+    setter(response);
   };
-
   return (
-    <ul>
-      {data.map((value) => (
-        <li key={value.id} id={value.id}>
-          {value.title} - {value.content}
-          <Button onClick={() => onDelete(value.id)}>삭제</Button>
-          <Button onClick={() => onModify(value.id)}>{value.done ? '취소' : '완료'}</Button>
-        </li>
-      ))}
-    </ul>
+    <>
+      <h3>{props.listType === "active" ? "TODO" : "ARCHIVED"}</h3>
+      <ul>
+        {listData.map((value) => (
+          <li key={value.id} id={value.id}>
+            <TodoListItem data={value} />
+            <Button onClick={() => onDelete(value.id)}>삭제</Button>
+            <Button onClick={() => onModify(value.id)}>완료</Button>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 
-function TodoList(props: TodoPageProps) {
-  const { children } = props;
-  console.log("RENDER")
-  return <>{children}</>;
-}
-
-TodoList.Title = Title;
-TodoList.List = List;
 export default TodoList;
