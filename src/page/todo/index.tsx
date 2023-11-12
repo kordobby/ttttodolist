@@ -18,14 +18,17 @@ export const TodoContext = createContext<TodoContextType>(initialTodoContext);
 function TodoPage() {
   const [todoList, setTodoList] = useGetTodo();
 
-  const onSetTodoList: (value: TodoEntity[]) => void = useCallback((value) => {
-    setTodoList(value);
-  }, [setTodoList]);
+  const onSetTodoList: (value: TodoEntity[]) => void = useCallback(
+    (value) => {
+      setTodoList(value);
+    },
+    [setTodoList]
+  );
 
   return (
     <UI.Layout>
       <TodoContext.Provider value={{ state: todoList, setter: onSetTodoList }}>
-        <TodoForm setTodoList={setTodoList} />
+        <TodoForm />
         <TodoList listType="active" />
         <TodoList listType="archived" />
       </TodoContext.Provider>

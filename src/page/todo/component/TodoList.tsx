@@ -25,7 +25,7 @@ function TodoList(props: TodoListProps) {
   };
   return (
     <>
-      <h3>{props.listType === "active" ? "TODO" : "ARCHIVED"}</h3>
+      <h3>{props.listType === 'active' ? 'TODO' : 'ARCHIVED'}</h3>
       <ul>
         {listData.map((value) => (
           <li key={value.id} id={value.id}>

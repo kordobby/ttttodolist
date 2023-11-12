@@ -1,8 +1,9 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Input from '../../../component/core/control/Input';
 import Button from '../../../component/core/control/Button';
-import TodoProvider, { TodoEntity } from '../../../server/TodoProvider';
+import TodoProvider from '../../../server/TodoProvider';
 import { FormItemType } from '../type';
+import { TodoContext } from '..';
 
 const initialFormItem: FormItemType<string> = {
   title: '',
@@ -14,12 +15,8 @@ const initialErrorState: FormItemType<boolean> = {
   content: false,
 };
 
-interface TodoFormProps extends PropsWithChildren {
-  setTodoList: React.Dispatch<React.SetStateAction<TodoEntity[]>>;
-}
-
-function TodoForm(props: TodoFormProps) {
-  const { setTodoList } = props;
+function TodoForm() {
+  const { setter } = useContext(TodoContext);
   const [formItem, setFormItem] = useState<FormItemType<string>>(initialFormItem);
   const [error, setError] = useState<FormItemType<boolean>>(initialErrorState);
   const btnDisabled = error.title || error.title;
@@ -46,7 +43,7 @@ function TodoForm(props: TodoFormProps) {
       title: formItem.title,
       content: formItem.content,
     });
-    setTodoList(response);
+    setter(response);
   };
 
   return (
