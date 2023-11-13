@@ -5,7 +5,7 @@ import Loading from './Loading';
 import styled from 'styled-components';
 
 interface TodoListProps {
-  listType: 'active' | 'archived';
+  listType: 'active' | 'done';
 }
 
 function TodoList(props: TodoListProps) {
@@ -17,7 +17,7 @@ function TodoList(props: TodoListProps) {
   const isEmptyList = listData.length === 0;
   return (
     <ListLayout>
-      <h3>{isActiveList ? 'TODO' : 'ARCHIVED'}</h3>
+      <h3>{isActiveList ? '✋🏻 TODO' : '👩🏻‍🌾 DONE'}</h3>
       <Loading loading={loading}>
         <ul>
           {isEmptyList && <h4>is Empty!</h4> }

@@ -33,7 +33,7 @@ function TodoPage() {
       <TodoContext.Provider value={{ state: todoList, setter: onSetTodoList, loading }}>
         <TodoForm />
         <TodoList listType="active" />
-        <TodoList listType="archived" />
+        <TodoList listType="done" />
       </TodoContext.Provider>
     </UI.Layout>
   );

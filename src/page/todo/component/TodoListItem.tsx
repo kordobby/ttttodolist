@@ -85,11 +85,11 @@ export function TodoListItem(props: TodoListItemProps) {
             <Input.TextField id={'content'} onChange={onChange} defaultValue={initialContent} />
           </Input>
           <Button type="submit" onClick={() => setIsUpdateMode(false)}>
-            취소
+          ↩️
           </Button>
           {isModified && (
             <Button type="submit" disabled={btnDisabled}>
-              저장
+              💾
             </Button>
           )}
         </StForm>
@@ -101,9 +101,9 @@ export function TodoListItem(props: TodoListItemProps) {
       <TodoFormItemBox>
         <span>{initialTitle} - </span>
         <span>{initialContent}</span>
-        <Button onClick={() => setIsUpdateMode(true)}>수정</Button>
-        <Button onClick={onDelete}>삭제</Button>
-        <Button onClick={onToggleDoneState}>{done ? `취소` : `완료`}</Button>
+        {!done && <Button onClick={() => setIsUpdateMode(true)}>✏️</Button>}
+        <Button onClick={onDelete}>🗑️</Button>
+        <Button onClick={onToggleDoneState}>{done ? `❎` : `✅`}</Button>
       </TodoFormItemBox>
     </Loading>
   );
