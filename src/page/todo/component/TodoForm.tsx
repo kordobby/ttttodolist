@@ -19,8 +19,9 @@ const initialErrorState: FormItemType<boolean> = {
 function TodoForm() {
   const { setter } = useContext(TodoContext);
   const [formItem, setFormItem] = useState<FormItemType<string>>(initialFormItem);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<FormItemType<boolean>>(initialErrorState);
-  const btnDisabled = error.title || error.title;
+  const btnDisabled = error.title || error.title || loading;
 
   const onValidateFormItem = (key: string, value: string) => {
     if (!value || value.trim() === '') {
@@ -40,21 +41,23 @@ function TodoForm() {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     const response = await TodoProvider.createTodo({
       title: formItem.title,
       content: formItem.content,
     });
     setter(response);
     setFormItem(initialFormItem);
+    setLoading(false);
   };
 
   return (
     <StForm className="todo_form" onSubmit={onSubmit}>
       <Input label={'제목'} $isError={error['title']}>
-        <Input.TextField id={'title'} onChange={onChange} value={formItem.title} />
+        <Input.TextField id={'title'} onChange={onChange} value={formItem.title} disabled={loading}/>
       </Input>
       <Input label={'내용'} $isError={error['content']}>
-        <Input.TextField id={'content'} onChange={onChange} value={formItem.content} />
+        <Input.TextField id={'content'} onChange={onChange} value={formItem.content} disabled={loading} />
       </Input>
       <Button type="submit" disabled={btnDisabled}>
         제출하기

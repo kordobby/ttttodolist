@@ -1,10 +1,10 @@
-import { PropsWithChildren, useContext } from 'react';
+import { useContext } from 'react';
 import { TodoContext } from '..';
 import { TodoListItem } from './TodoFormItem';
 import Loading from './Loading';
 import styled from 'styled-components';
 
-interface TodoListProps extends PropsWithChildren {
+interface TodoListProps {
   listType: 'active' | 'archived';
 }
 
@@ -16,30 +16,30 @@ function TodoList(props: TodoListProps) {
   );
 
   return (
-    <ListWrapper>
+    <ListLayout>
       <h3>{isActiveList ? 'TODO' : 'ARCHIVED'}</h3>
       <Loading loading={loading}>
         <ul>
           {listData.map((value) => (
             <li key={value.id} id={value.id}>
-              <ListBox>
-                <TodoListItem data={value}></TodoListItem>
-              </ListBox>
+              <ListItemBox>
+                <TodoListItem data={value}/>
+              </ListItemBox>
             </li>
           ))}
         </ul>
       </Loading>
-    </ListWrapper>
+    </ListLayout>
   );
 }
 
 export default TodoList;
 
-const ListWrapper = styled.div`
+const ListLayout = styled.div`
   padding: 15px 40px;
 `;
 
-const ListBox = styled.div`
+const ListItemBox = styled.div`
   display: flex;
   gap: 5px;
   span {

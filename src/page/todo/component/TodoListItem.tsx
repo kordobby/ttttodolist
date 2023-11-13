@@ -17,17 +17,18 @@ interface TodoListItemProps extends PropsWithChildren {
 }
 
 export function TodoListItem(props: TodoListItemProps) {
-  const { data } = props;
+  const { id, done, title: initialTitle, content: initialContent } = props.data;
   const { setter } = useContext(TodoContext);
 
   const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false);
-  const [formItem, setFormItem] = useState<FormItemType<string>>({
-    title: data.title,
-    content: data.content,
-  });
-  const isModified = formItem.title !== data.title || formItem.content !== data.content;
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<FormItemType<boolean>>(initialErrorState);
+  const [formItem, setFormItem] = useState<FormItemType<string>>({
+    title: initialTitle,
+    content: initialContent,
+  });
+
+  const isModified = formItem.title !== initialTitle || formItem.content !== initialContent;
   const btnDisabled = error.title || error.content;
 
   const onValidateFormItem = (key: string, value: string) => {
@@ -39,8 +40,7 @@ export function TodoListItem(props: TodoListItemProps) {
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    const id = event.target.id;
+    const {value, id} = event.target;
 
     onValidateFormItem(id, value);
     setFormItem((prev) => ({ ...prev, [id]: value }));
@@ -50,10 +50,10 @@ export function TodoListItem(props: TodoListItemProps) {
     event.preventDefault();
     setLoading(true);
     const response = await TodoProvider.modifyTodo({
-      id: data.id,
+      id,
       title: formItem.title,
       content: formItem.content,
-      done: data.done,
+      done,
     });
     setter(response);
     setLoading(false);
@@ -62,14 +62,14 @@ export function TodoListItem(props: TodoListItemProps) {
 
   const onDelete = async () => {
     setLoading(true);
-    const response = await TodoProvider.deleteTodo(data.id);
+    const response = await TodoProvider.deleteTodo(id);
     setter(response);
     setLoading(false);
   };
 
-  const onModify = async () => {
+  const onToggleDoneState = async () => {
     setLoading(true);
-    const response = await TodoProvider.modifyDoneState(data.id);
+    const response = await TodoProvider.modifyDoneState(id);
     setter(response);
     setLoading(false);
   };
@@ -79,10 +79,10 @@ export function TodoListItem(props: TodoListItemProps) {
       <Loading loading={loading}>
         <StForm onSubmit={onSubmit}>
           <Input>
-            <Input.TextField id={'title'} onChange={onChange} defaultValue={data.title} />
+            <Input.TextField id={'title'} onChange={onChange} defaultValue={initialTitle} />
           </Input>
           <Input>
-            <Input.TextField id={'content'} onChange={onChange} defaultValue={data.content} />
+            <Input.TextField id={'content'} onChange={onChange} defaultValue={initialContent} />
           </Input>
           <Button type="submit" onClick={() => setIsUpdateMode(false)}>
             취소
@@ -99,11 +99,11 @@ export function TodoListItem(props: TodoListItemProps) {
   return (
     <Loading loading={loading}>
       <TodoFormItemBox>
-        <span>{data.title} - </span>
-        <span>{data.content}</span>
+        <span>{initialTitle} - </span>
+        <span>{initialContent}</span>
         <Button onClick={() => setIsUpdateMode(true)}>수정</Button>
         <Button onClick={onDelete}>삭제</Button>
-        <Button onClick={onModify}>{data?.done ? `취소` : `완료`}</Button>
+        <Button onClick={onToggleDoneState}>{done ? `취소` : `완료`}</Button>
       </TodoFormItemBox>
     </Loading>
   );
