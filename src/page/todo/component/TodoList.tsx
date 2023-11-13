@@ -14,12 +14,13 @@ function TodoList(props: TodoListProps) {
   const listData = state.filter((value) =>
     props.listType === 'active' ? value.done === false : value.done === true
   );
-
+  const isEmptyList = listData.length === 0;
   return (
     <ListLayout>
       <h3>{isActiveList ? 'TODO' : 'ARCHIVED'}</h3>
       <Loading loading={loading}>
         <ul>
+          {isEmptyList && <h4>is Empty!</h4> }
           {listData.map((value) => (
             <li key={value.id} id={value.id}>
               <ListItemBox>
