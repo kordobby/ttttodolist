@@ -45,15 +45,16 @@ function TodoForm() {
       content: formItem.content,
     });
     setter(response);
+    setFormItem(initialFormItem)
   };
 
   return (
     <StForm className="todo_form" onSubmit={onSubmit}>
       <Input label={'제목'} $isError={error['title']}>
-        <Input.TextField id={'title'} onChange={onChange} />
+        <Input.TextField id={'title'} onChange={onChange} value={formItem.title}/>
       </Input>
       <Input label={'내용'} $isError={error['content']}>
-        <Input.TextField id={'content'} onChange={onChange} />
+        <Input.TextField id={'content'} onChange={onChange} value={formItem.content} />
       </Input>
       <Button type="submit" disabled={btnDisabled}>
         제출하기
