@@ -10,13 +10,14 @@ interface TodoListProps extends PropsWithChildren {
 
 function TodoList(props: TodoListProps) {
   const { state, loading } = useContext(TodoContext);
+  const isActiveList = props.listType === 'active'
   const listData = state.filter((value) =>
     props.listType === 'active' ? value.done === false : value.done === true
   );
 
   return (
     <ListWrapper>
-      <h3>{props.listType === 'active' ? 'TODO' : 'ARCHIVED'}</h3>
+      <h3>{isActiveList ? 'TODO' : 'ARCHIVED'}</h3>
       <Loading loading={loading}>
         <ul>
           {listData.map((value) => (

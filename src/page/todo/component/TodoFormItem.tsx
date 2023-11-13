@@ -100,7 +100,7 @@ export function TodoListItem(props: TodoListItemProps) {
         <span>{data.content}</span>
         <Button onClick={() => setIsUpdateMode(true)}>수정</Button>
         <Button onClick={onDelete}>삭제</Button>
-        <Button onClick={onModify}>완료</Button>
+        <Button onClick={onModify}>{data?.done ? `취소` : `완료`}</Button>
       </TodoFormItemBox>
     </Loading>
   );
