@@ -29,10 +29,6 @@ export function TodoListItem(props: TodoListItemProps) {
   const [error, setError] = useState<FormItemType<boolean>>(initialErrorState);
   const btnDisabled = error.title || error.title;
 
-  const toggleUpdateMode = () => {
-    setIsUpdateMode((prev) => !prev);
-  };
-
   const onValidateFormItem = (key: string, value: string) => {
     if (!value || value.trim() === '') {
       setError((prev) => ({ ...prev, [key]: true }));
@@ -60,7 +56,7 @@ export function TodoListItem(props: TodoListItemProps) {
     });
     setter(response);
     setLoading(false);
-    toggleUpdateMode();
+    setIsUpdateMode(false);
   };
 
   const onDelete = async () => {
@@ -90,7 +86,7 @@ export function TodoListItem(props: TodoListItemProps) {
           <Button type="submit" disabled={btnDisabled}>
             저장
           </Button>
-          <Button type="submit" onClick={toggleUpdateMode}>
+          <Button type="submit" onClick={() => setIsUpdateMode(false)}>
             취소
           </Button>
         </StForm>
@@ -102,7 +98,7 @@ export function TodoListItem(props: TodoListItemProps) {
       <TodoFormItemBox>
         <span>{data.title} - </span>
         <span>{data.content}</span>
-        <Button onClick={toggleUpdateMode}>수정</Button>
+        <Button onClick={() => setIsUpdateMode(true)}>수정</Button>
         <Button onClick={onDelete}>삭제</Button>
         <Button onClick={onModify}>완료</Button>
       </TodoFormItemBox>
