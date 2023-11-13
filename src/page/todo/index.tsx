@@ -8,15 +8,18 @@ import { TodoEntity } from '../../server/TodoProvider';
 interface TodoContextType {
   state: TodoEntity[];
   setter: (value: TodoEntity[]) => void;
+  loading: boolean;
 }
 
 const initialTodoContext: TodoContextType = {
   state: [],
   setter: () => {},
+  loading: false
 };
+
 export const TodoContext = createContext<TodoContextType>(initialTodoContext);
 function TodoPage() {
-  const [todoList, setTodoList] = useGetTodo();
+  const [todoList, setTodoList, loading] = useGetTodo();
 
   const onSetTodoList: (value: TodoEntity[]) => void = useCallback(
     (value) => {
@@ -27,10 +30,10 @@ function TodoPage() {
 
   return (
     <UI.Layout>
-      <TodoContext.Provider value={{ state: todoList, setter: onSetTodoList }}>
+      <TodoContext.Provider value={{ state: todoList, setter: onSetTodoList, loading }}>
         <TodoForm />
-        <TodoList listType="active" />
-        <TodoList listType="archived" />
+          <TodoList listType="active" />
+          <TodoList listType="archived" />
       </TodoContext.Provider>
     </UI.Layout>
   );

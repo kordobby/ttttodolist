@@ -14,7 +14,9 @@ export interface TodoEntity {
 
 const returnPromise = async (response: () => TodoEntity[]): Promise<TodoEntity[]> => {
   return new Promise(function (resolve) {
-    resolve(response());
+    setTimeout(() => {
+      resolve(response());
+    }, 2000)
   });
 };
 

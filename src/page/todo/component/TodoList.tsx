@@ -3,13 +3,14 @@ import Button from '../../../component/core/control/Button';
 import TodoProvider from '../../../server/TodoProvider';
 import { TodoContext } from '..';
 import { TodoListItem } from './TodoFormItem';
+import Loading from './Loading';
 
 interface TodoListProps extends PropsWithChildren {
   listType: 'active' | 'archived';
 }
 
 function TodoList(props: TodoListProps) {
-  const { state, setter } = useContext(TodoContext);
+  const { state, setter, loading } = useContext(TodoContext);
   const listData = state.filter((value) =>
     props.listType === 'active' ? value.done === false : value.done === true
   );
@@ -26,6 +27,7 @@ function TodoList(props: TodoListProps) {
   return (
     <>
       <h3>{props.listType === 'active' ? 'TODO' : 'ARCHIVED'}</h3>
+      <Loading loading={loading}>
       <ul>
         {listData.map((value) => (
           <li key={value.id} id={value.id}>
@@ -35,6 +37,7 @@ function TodoList(props: TodoListProps) {
           </li>
         ))}
       </ul>
+      </Loading>
     </>
   );
 }
