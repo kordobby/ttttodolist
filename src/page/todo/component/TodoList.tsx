@@ -4,6 +4,7 @@ import TodoProvider from '../../../server/TodoProvider';
 import { TodoContext } from '..';
 import { TodoListItem } from './TodoFormItem';
 import Loading from './Loading';
+import styled from 'styled-components';
 
 interface TodoListProps extends PropsWithChildren {
   listType: 'active' | 'archived';
@@ -25,21 +26,36 @@ function TodoList(props: TodoListProps) {
     setter(response);
   };
   return (
-    <>
+    <ListWrapper>
       <h3>{props.listType === 'active' ? 'TODO' : 'ARCHIVED'}</h3>
       <Loading loading={loading}>
-      <ul>
-        {listData.map((value) => (
-          <li key={value.id} id={value.id}>
-            <TodoListItem data={value} />
-            <Button onClick={() => onDelete(value.id)}>삭제</Button>
-            <Button onClick={() => onModify(value.id)}>완료</Button>
-          </li>
-        ))}
-      </ul>
+        <ul>
+          {listData.map((value) => (
+            <li key={value.id} id={value.id}>
+              <ListBox>
+                <TodoListItem data={value} />
+                <Button onClick={() => onDelete(value.id)}>삭제</Button>
+                <Button onClick={() => onModify(value.id)}>완료</Button>
+              </ListBox>
+            </li>
+          ))}
+        </ul>
       </Loading>
-    </>
+    </ListWrapper>
   );
 }
 
 export default TodoList;
+
+const ListWrapper = styled.div`
+  padding: 15px 40px;
+`
+
+const ListBox = styled.div`
+    display: flex;
+    gap: 5px;
+    span {
+      margin-right: 10px;
+    }
+    margin-bottom: 8px;
+`

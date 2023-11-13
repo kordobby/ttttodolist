@@ -14,7 +14,7 @@ interface TodoContextType {
 const initialTodoContext: TodoContextType = {
   state: [],
   setter: () => {},
-  loading: false
+  loading: false,
 };
 
 export const TodoContext = createContext<TodoContextType>(initialTodoContext);
@@ -32,8 +32,8 @@ function TodoPage() {
     <UI.Layout>
       <TodoContext.Provider value={{ state: todoList, setter: onSetTodoList, loading }}>
         <TodoForm />
-          <TodoList listType="active" />
-          <TodoList listType="archived" />
+        <TodoList listType="active" />
+        <TodoList listType="archived" />
       </TodoContext.Provider>
     </UI.Layout>
   );

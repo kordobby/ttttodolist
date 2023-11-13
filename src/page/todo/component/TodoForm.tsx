@@ -4,6 +4,7 @@ import Button from '../../../component/core/control/Button';
 import TodoProvider from '../../../server/TodoProvider';
 import { FormItemType } from '../type';
 import { TodoContext } from '..';
+import styled from 'styled-components';
 
 const initialFormItem: FormItemType<string> = {
   title: '',
@@ -47,7 +48,7 @@ function TodoForm() {
   };
 
   return (
-    <form className="todo_form" onSubmit={onSubmit}>
+    <StForm className="todo_form" onSubmit={onSubmit}>
       <Input label={'제목'} $isError={error['title']}>
         <Input.TextField id={'title'} onChange={onChange} />
       </Input>
@@ -57,8 +58,17 @@ function TodoForm() {
       <Button type="submit" disabled={btnDisabled}>
         제출하기
       </Button>
-    </form>
+    </StForm>
   );
 }
 
 export default TodoForm;
+
+const StForm = styled.form`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 30px;
+`;

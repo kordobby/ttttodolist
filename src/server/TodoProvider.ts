@@ -16,7 +16,7 @@ const returnPromise = async (response: () => TodoEntity[]): Promise<TodoEntity[]
   return new Promise(function (resolve) {
     setTimeout(() => {
       resolve(response());
-    }, 2000)
+    }, 2000);
   });
 };
 

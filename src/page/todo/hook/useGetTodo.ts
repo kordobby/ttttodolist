@@ -4,7 +4,7 @@ import TodoProvider, { TodoEntity } from '../../../server/TodoProvider';
 export const useGetTodo = (): [
   TodoEntity[],
   React.Dispatch<React.SetStateAction<TodoEntity[]>>,
-  boolean
+  boolean,
 ] => {
   const [todoList, setTodoList] = useState<TodoEntity[]>([]);
   const [loading, setLoading] = useState<boolean>(false);

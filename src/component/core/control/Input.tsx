@@ -47,4 +47,6 @@ export default Input;
 
 const InputLayout = styled.div<InputLayoutProps>`
   border-color: ${({ $isError }) => ($isError ? 'red' : 'black')};
+  display: flex;
+  gap: 5px;
 `;
