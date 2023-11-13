@@ -28,7 +28,7 @@ export function TodoListItem(props: TodoListItemProps) {
   const isModified = formItem.title !== data.title || formItem.content !== data.content;
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<FormItemType<boolean>>(initialErrorState);
-  const btnDisabled = error.title || error.title;
+  const btnDisabled = error.title || error.content;
 
   const onValidateFormItem = (key: string, value: string) => {
     if (!value || value.trim() === '') {
