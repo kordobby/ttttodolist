@@ -25,6 +25,7 @@ export function TodoListItem(props: TodoListItemProps) {
     title: data.title,
     content: data.content,
   });
+  const isModified = formItem.title !== data.title || formItem.content !== data.content;
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<FormItemType<boolean>>(initialErrorState);
   const btnDisabled = error.title || error.title;
@@ -83,12 +84,14 @@ export function TodoListItem(props: TodoListItemProps) {
           <Input>
             <Input.TextField id={'content'} onChange={onChange} defaultValue={data.content} />
           </Input>
-          <Button type="submit" disabled={btnDisabled}>
-            저장
-          </Button>
           <Button type="submit" onClick={() => setIsUpdateMode(false)}>
             취소
           </Button>
+          {isModified && (
+            <Button type="submit" disabled={btnDisabled}>
+              저장
+            </Button>
+          )}
         </StForm>
       </Loading>
     );

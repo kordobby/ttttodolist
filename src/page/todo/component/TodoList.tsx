@@ -10,7 +10,7 @@ interface TodoListProps extends PropsWithChildren {
 
 function TodoList(props: TodoListProps) {
   const { state, loading } = useContext(TodoContext);
-  const isActiveList = props.listType === 'active'
+  const isActiveList = props.listType === 'active';
   const listData = state.filter((value) =>
     props.listType === 'active' ? value.done === false : value.done === true
   );
