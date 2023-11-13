@@ -4,6 +4,7 @@ import { FormItemType } from '../type';
 import { TodoContext } from '..';
 import Input from '../../../component/core/control/Input';
 import Button from '../../../component/core/control/Button';
+import styled from 'styled-components';
 
 const initialErrorState: FormItemType<boolean> = {
   title: false,
@@ -60,7 +61,7 @@ export function TodoListItem(props: TodoListItemProps) {
 
   if (isUpdateMode) {
     return (
-      <form onSubmit={onSubmit}>
+      <StForm onSubmit={onSubmit}>
         <Input>
           <Input.TextField id={'title'} onChange={onChange} defaultValue={data.title} />
         </Input>
@@ -73,7 +74,7 @@ export function TodoListItem(props: TodoListItemProps) {
         <Button type="submit" onClick={toggleUpdateMode}>
           취소
         </Button>
-      </form>
+      </StForm>
     );
   }
   return (
@@ -84,3 +85,9 @@ export function TodoListItem(props: TodoListItemProps) {
     </div>
   );
 }
+
+const StForm = styled.form`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+`
