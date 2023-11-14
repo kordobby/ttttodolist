@@ -11,13 +11,7 @@ interface TodoContextType {
   loading: boolean;
 }
 
-const initialTodoContext: TodoContextType = {
-  state: [],
-  setter: () => {},
-  loading: false,
-};
-
-export const TodoContext = createContext<TodoContextType>(initialTodoContext);
+export const TodoContext = createContext<TodoContextType | null>(null);
 function TodoPage() {
   const [todoList, setTodoList, loading] = useGetTodo();
 

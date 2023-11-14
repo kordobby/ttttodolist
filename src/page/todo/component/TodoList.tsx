@@ -1,15 +1,14 @@
-import { useContext } from 'react';
-import { TodoContext } from '..';
 import { TodoListItem } from './TodoListItem';
 import Loading from './Loading';
 import styled from 'styled-components';
+import { useTodoContext } from '../context/useTodoContext';
 
 interface TodoListProps {
   listType: 'active' | 'done';
 }
 
 function TodoList(props: TodoListProps) {
-  const { state, loading } = useContext(TodoContext);
+  const { state, loading } = useTodoContext();
   const isActiveList = props.listType === 'active';
   const listData = state.filter((value) =>
     props.listType === 'active' ? value.done === false : value.done === true

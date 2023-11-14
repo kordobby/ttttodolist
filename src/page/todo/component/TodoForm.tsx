@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Input from '../../../component/core/control/Input';
 import Button from '../../../component/core/control/Button';
 import TodoProvider from '../../../server/TodoProvider';
 import { FormItemType } from '../type';
-import { TodoContext } from '..';
 import styled from 'styled-components';
+import { useTodoContext } from '../context/useTodoContext';
 
 const initialFormItem: FormItemType<string> = {
   title: '',
@@ -17,7 +17,7 @@ const initialErrorState: FormItemType<boolean> = {
 };
 
 function TodoForm() {
-  const { setter } = useContext(TodoContext);
+  const { setter } = useTodoContext();
   const [formItem, setFormItem] = useState<FormItemType<string>>(initialFormItem);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<FormItemType<boolean>>(initialErrorState);

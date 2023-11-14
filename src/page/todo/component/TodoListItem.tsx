@@ -1,11 +1,11 @@
-import { PropsWithChildren, useContext, useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import TodoProvider, { TodoEntity } from '../../../server/TodoProvider';
 import { FormItemType } from '../type';
-import { TodoContext } from '..';
 import Input from '../../../component/core/control/Input';
 import Button from '../../../component/core/control/Button';
 import styled from 'styled-components';
 import Loading from './Loading';
+import { useTodoContext } from '../context/useTodoContext';
 
 const initialErrorState: FormItemType<boolean> = {
   title: false,
@@ -18,7 +18,7 @@ interface TodoListItemProps extends PropsWithChildren {
 
 export function TodoListItem(props: TodoListItemProps) {
   const { id, done, title: initialTitle, content: initialContent } = props.data;
-  const { setter } = useContext(TodoContext);
+  const { setter } = useTodoContext();
 
   const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
