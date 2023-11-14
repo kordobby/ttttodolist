@@ -40,7 +40,7 @@ export function TodoListItem(props: TodoListItemProps) {
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {value, id} = event.target;
+    const { value, id } = event.target;
 
     handleValidateForm(id, value);
     setFormItem((prev) => ({ ...prev, [id]: value }));
@@ -85,7 +85,7 @@ export function TodoListItem(props: TodoListItemProps) {
             <Input.TextField id={'content'} onChange={handleChange} defaultValue={initialContent} />
           </Input>
           <Button type="submit" onClick={() => setIsUpdateMode(false)}>
-          ↩️
+            ↩️
           </Button>
           {isModified && (
             <Button type="submit" disabled={btnDisabled}>

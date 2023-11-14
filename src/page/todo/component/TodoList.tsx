@@ -20,11 +20,11 @@ function TodoList(props: TodoListProps) {
       <h3>{isActiveList ? '✋🏻 TODO' : '👩🏻‍🌾 DONE'}</h3>
       <Loading loading={loading}>
         <ul>
-          {isEmptyList && <h4>is Empty!</h4> }
+          {isEmptyList && <h4>is Empty!</h4>}
           {listData.map((value) => (
             <li key={value.id} id={value.id}>
               <UI.ListItemBox>
-                <TodoListItem data={value}/>
+                <TodoListItem data={value} />
               </UI.ListItemBox>
             </li>
           ))}
