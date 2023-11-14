@@ -2,32 +2,25 @@ import TodoForm from './component/TodoForm';
 import TodoList from './component/TodoList';
 import * as UI from './style/index';
 import { useGetTodo } from './hook/useGetTodo';
-import { createContext, useCallback } from 'react';
+import { createContext } from 'react';
 import { TodoEntity } from '../../server/TodoProvider';
 
 interface TodoContextType {
-  state: TodoEntity[];
-  setter: (value: TodoEntity[]) => void;
+  todoList: TodoEntity[];
+  setTodoList: React.Dispatch<React.SetStateAction<TodoEntity[]>>;
   loading: boolean;
 }
 
 export const TodoContext = createContext<TodoContextType | null>(null);
 function TodoPage() {
-  const [todoList, setTodoList, loading] = useGetTodo();
-
-  const onSetTodoList: (value: TodoEntity[]) => void = useCallback(
-    (value) => {
-      setTodoList(value);
-    },
-    [setTodoList]
-  );
+  const [todoList, setTodoList, initLoading] = useGetTodo();
 
   return (
     <UI.Layout>
-      <TodoContext.Provider value={{ state: todoList, setter: onSetTodoList, loading }}>
+      <TodoContext.Provider value={{ todoList, setTodoList, loading: initLoading }}>
         <TodoForm />
-        <TodoList listType="active" />
-        <TodoList listType="done" />
+        <TodoList category="active" />
+        <TodoList category="done" />
       </TodoContext.Provider>
     </UI.Layout>
   );

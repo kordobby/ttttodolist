@@ -7,17 +7,18 @@ export const useGetTodo = (): [
   boolean,
 ] => {
   const [todoList, setTodoList] = useState<TodoEntity[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const onGetTodoList = useCallback(async () => {
+  const [initLoading, setInitLoading] = useState<boolean>(false);
+
+  const getTodoList = useCallback(async () => {
     const response = await TodoProvider.getTodos();
-    setLoading(false);
+    setInitLoading(false);
     setTodoList(response);
   }, [setTodoList]);
 
   useEffect(() => {
-    setLoading(true);
-    onGetTodoList();
-  }, [onGetTodoList]);
+    setInitLoading(true);
+    getTodoList();
+  }, [getTodoList]);
 
-  return [todoList, setTodoList, loading];
+  return [todoList, setTodoList, initLoading];
 };

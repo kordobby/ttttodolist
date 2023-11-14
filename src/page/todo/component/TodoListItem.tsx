@@ -3,7 +3,7 @@ import TodoProvider, { TodoEntity } from '../../../server/TodoProvider';
 import { FormItemType } from '../type';
 import Input from '../../../component/core/control/Input';
 import Button from '../../../component/core/control/Button';
-import styled from 'styled-components';
+import * as UI from '../style/TodoListItem.style';
 import Loading from './Loading';
 import { useTodoContext } from '../context/useTodoContext';
 
@@ -18,7 +18,7 @@ interface TodoListItemProps extends PropsWithChildren {
 
 export function TodoListItem(props: TodoListItemProps) {
   const { id, done, title: initialTitle, content: initialContent } = props.data;
-  const { setter } = useTodoContext();
+  const { setTodoList } = useTodoContext();
 
   const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -31,7 +31,7 @@ export function TodoListItem(props: TodoListItemProps) {
   const isModified = formItem.title !== initialTitle || formItem.content !== initialContent;
   const btnDisabled = error.title || error.content;
 
-  const onValidateFormItem = (key: string, value: string) => {
+  const handleValidateForm = (key: string, value: string) => {
     if (!value || value.trim() === '') {
       setError((prev) => ({ ...prev, [key]: true }));
       return;
@@ -39,14 +39,14 @@ export function TodoListItem(props: TodoListItemProps) {
     setError((prev) => ({ ...prev, [key]: false }));
   };
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {value, id} = event.target;
 
-    onValidateFormItem(id, value);
+    handleValidateForm(id, value);
     setFormItem((prev) => ({ ...prev, [id]: value }));
   };
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
     const response = await TodoProvider.modifyTodo({
@@ -55,34 +55,34 @@ export function TodoListItem(props: TodoListItemProps) {
       content: formItem.content,
       done,
     });
-    setter(response);
+    setTodoList(response);
     setLoading(false);
     setIsUpdateMode(false);
   };
 
-  const onDelete = async () => {
+  const handleDeleteTodo = async () => {
     setLoading(true);
     const response = await TodoProvider.deleteTodo(id);
-    setter(response);
+    setTodoList(response);
     setLoading(false);
   };
 
-  const onToggleDoneState = async () => {
+  const handleToggleDoneStatus = async () => {
     setLoading(true);
     const response = await TodoProvider.modifyDoneState(id);
-    setter(response);
+    setTodoList(response);
     setLoading(false);
   };
 
   if (isUpdateMode) {
     return (
       <Loading loading={loading}>
-        <StForm onSubmit={onSubmit}>
+        <UI.Form onSubmit={handleSubmit}>
           <Input>
-            <Input.TextField id={'title'} onChange={onChange} defaultValue={initialTitle} />
+            <Input.TextField id={'title'} onChange={handleChange} defaultValue={initialTitle} />
           </Input>
           <Input>
-            <Input.TextField id={'content'} onChange={onChange} defaultValue={initialContent} />
+            <Input.TextField id={'content'} onChange={handleChange} defaultValue={initialContent} />
           </Input>
           <Button type="submit" onClick={() => setIsUpdateMode(false)}>
           ↩️
@@ -92,31 +92,19 @@ export function TodoListItem(props: TodoListItemProps) {
               💾
             </Button>
           )}
-        </StForm>
+        </UI.Form>
       </Loading>
     );
   }
   return (
     <Loading loading={loading}>
-      <TodoFormItemBox>
+      <UI.FormItemBox>
         <span>{initialTitle} - </span>
         <span>{initialContent}</span>
         {!done && <Button onClick={() => setIsUpdateMode(true)}>✏️</Button>}
-        <Button onClick={onDelete}>🗑️</Button>
-        <Button onClick={onToggleDoneState}>{done ? `❎` : `✅`}</Button>
-      </TodoFormItemBox>
+        <Button onClick={handleDeleteTodo}>🗑️</Button>
+        <Button onClick={handleToggleDoneStatus}>{done ? `❎` : `✅`}</Button>
+      </UI.FormItemBox>
     </Loading>
   );
 }
-
-const TodoFormItemBox = styled.div`
-  button {
-    margin-right: 5px;
-  }
-`;
-
-const StForm = styled.form`
-  display: flex;
-  gap: 5px;
-  align-items: center;
-`;
